@@ -35,7 +35,7 @@ char* read_file(char* path)
 
 int main(int argc, char** argv)
 {
-  argv++; // skip program path
+  ++argv; // skip program path
   --argc;
 
   while (argc > 0) {
