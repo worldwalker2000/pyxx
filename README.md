@@ -8,4 +8,32 @@ Python but with a C/C++ style.
 
 The code gets transpiled into regular python by pyxx.
 
-```pyxx main.pyxx```
+```pyxx main.pyxx``` -> main.py
+
+```python
+import random;
+
+computer = random.randint(1, 10);
+user = -1;
+while user != computer {
+  user = int(input("Enter a number: "));
+  if user < computer {
+    print("Too low");
+  } else {
+    print("Too high");
+  }
+}
+```
+converts into
+```python
+import random
+
+computer = random.randint(1, 10)
+user = -1
+while user != computer:
+  user = int(input("Enter a number: "))
+  if user < computer:
+    print("Too low")
+  else:
+    print("Too high")
+```
