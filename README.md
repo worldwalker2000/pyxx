@@ -41,6 +41,8 @@ while user != computer :
 ```
 
 # Future Plans
+- Allow ! instead of "not"
+- Allow || and && instead of "or" and "and"
 - Allow for mulit-line lambda functions
 - Syntax highligting for vim, emacs, and vscode
 - Maybe.. make python's optional static typing required
