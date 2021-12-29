@@ -40,5 +40,16 @@ while user != computer :
 
 ```
 
+# Future Plans
+- Allow for mulit-line lambda functions
+- Syntax highligting for vim, emacs, and vscode
+- Maybe.. make python's optional static typing required
+
+# Know issues
+- Escapted quotes
+- lambdas
+- some strange brace arangments
+
+# FAQ
 Why the name pyxx?
 Because c++ files can have .cxx instead of .cpp
