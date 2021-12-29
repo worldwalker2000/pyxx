@@ -39,3 +39,6 @@ while user != computer :
 
 
 ```
+
+Why the name pyxx?
+Because c++ files can have .cxx instead of .cpp
