@@ -41,7 +41,9 @@ int main(int argc, char** argv)
   while (argc > 0) {
     char* name = *argv++;
     char* program = read_file(name);
-    printf("File:\n%s\n", program);
+
+    // debug
+    // printf("File:\n%s\n", program);
 
     name[strlen(name) - 2]  ='\0';
     FILE* output = fopen(name, "w");
@@ -67,6 +69,20 @@ int main(int argc, char** argv)
         in_quotes = !in_quotes;
       } else if(c == ' ') {
         if (in_meat || in_quotes) fputc(' ', output);
+      } else if (c == '+') {
+        if (program[curr] == '+') { // just curr not curr +1 because curr gets incremented in the loop head thus curr already is the next char
+          fputc('+', output);
+          fputc('=', output);
+          fputc('1', output);
+          ++curr; // skip next plus
+        }
+      } else if (c == '-') {
+        if (program[curr] == '-') { // just curr not curr +1 because curr gets incremented in the loop head thus curr already is the next char
+          fputc('-', output);
+          fputc('=', output);
+          fputc('1', output);
+          ++curr; // skip next plus
+        }
       } else {
         if (!in_meat) {
           in_meat = true;

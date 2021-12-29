@@ -1,6 +1,6 @@
 #!/bin/zsh
 
 make
-./pyxx testing/test.pyxx
-cat testing/test.py
-python3 testing/test.py
+./pyxx testing/plus.pyxx
+cat testing/plus.py
+python3 testing/plus.py
