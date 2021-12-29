@@ -75,14 +75,14 @@ int main(int argc, char** argv)
           fputc('=', output);
           fputc('1', output);
           ++curr; // skip next plus
-        }
+        } else fputc('+', output);
       } else if (c == '-') {
         if (program[curr] == '-') { // just curr not curr +1 because curr gets incremented in the loop head thus curr already is the next char
           fputc('-', output);
           fputc('=', output);
           fputc('1', output);
           ++curr; // skip next plus
-        }
+        } else fputc('-', output);
       } else {
         if (!in_meat) {
           in_meat = true;

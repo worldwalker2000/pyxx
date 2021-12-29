@@ -1,7 +1,7 @@
 import random
 
 computer = random.randint(1, 10)
-user = 1
+user = -1
 while user != computer :
 	user = int(input("Enter a number: "))
 	if user < computer :
