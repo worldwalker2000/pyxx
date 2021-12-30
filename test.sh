@@ -1,6 +1,6 @@
 #!/bin/bash
 
-tests=("test" "plus" "braces" "andandorandnot")
+tests=("test" "plus" "braces" "andandorandnot" "quotes")
 
 make
 

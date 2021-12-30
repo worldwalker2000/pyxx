@@ -36,82 +36,102 @@ int main(int argc, char** argv)
     bool in_meat = false;
 
     while (input.good()) {
-      char current;
-      switch (current = getc(input)) {
-        if (!in_quotes) {
-          case ';':
-            // ignore ;
-            break;
-          case '{':
-            output << ":";
-            ++tabs;
-            break;
-          case '}':
-            --tabs;
-            break;
-          case '\n':
-            output << "\n";
-            in_meat = false;
-            break;
-          case ' ':
-            if (in_meat) output << " ";
-            break;
-          case '+':
-            if (peekc(input) == '+') {
-              output << "+=1";
-              getc(input); // consume the next +
-              break;
-            }
-          case '-':
-            if (peekc(input) == '-') {
-              output << "-=1";
-              getc(input); // consume the next -
-              break;
-            }
-          case '!':
-            if (peekc(input) != '=' && (peekc(input) == '!' || peekc(input) == 'T' || peekc(input) == 'F')) { // this is a mess
-              output << "not ";
-              break;
-            }
-          case '&':
-            if (peekc(input) == '&') {
-              output << "and";
-              getc(input); // consume the next &
-              break;
-            }
-          case '|':
-            if (peekc(input) == '|') {
-              output << "or";
-              getc(input); // consume the next |
-              break;
-            }
-        } else { // no in a quote
-          case '\\':
-            if (peekc(input) == '"' || peekc(input) == '\'') {
-              output << "\\" << getc(input); // consume the " or '
-              break;
-            }
-          case '"':
-          case '\'':
-            output << current;
-            in_quotes = !in_quotes;
-            break;
-        }
-        default:
-          if (!in_meat) {
-            in_meat = true;
-            for (int i = 0; i < tabs; ++i) {
-              output << "\t";
-            }
-          }
+      char current = getc(input);
 
+      auto normal = [&output, current, tabs, &in_meat]() {
+        if (!in_meat) {
+          in_meat = true;
+          for (int i = 0; i < tabs; ++i) {
+            output << "\t";
+          }
+        }
+
+        output << current;
+      };
+
+      if (!in_quotes) {
+        if (current == ';') {
+          // ignore ;
+        }
+        else if (current == '{') {
+          output << ":";
+          ++tabs;
+        }
+        else if (current == '}') {
+          --tabs;
+        }
+        else if (current == '\n') {
+          output << "\n";
+          in_meat = false;
+        }
+        else if (current == ' ') {
+          if (in_quotes) std::cout << "ERROR" << std::endl;
+          if (in_meat) output << " ";
+        }
+        else if (current == '+') {
+          if (peekc(input) == '+') {
+            output << "+=1";
+            getc(input); // consume the next +
+          } else {
+            normal();
+          }
+        }
+        else if (current == '-') {
+          if (peekc(input) == '-') {
+            output << "-=1";
+            getc(input); // consume the next -
+          } else {
+            normal();
+          }
+        }
+        else if (current == '!') {
+          if (peekc(input) != '=' && (peekc(input) == '!' || peekc(input) == 'T' || peekc(input) == 'F')) { // this is a mess
+            output << "not ";
+          } else {
+            normal();
+          }
+        }
+        else if (current == '&') {
+          if (peekc(input) == '&') {
+            output << "and";
+            getc(input); // consume the next &
+          } else {
+            normal();
+          }
+        }
+        else if (current == '|') {
+          if (peekc(input) == '|') {
+            output << "or";
+            getc(input); // consume the next |
+          } else {
+            normal();
+          }
+        } else if (current == '"' || current == '\'') {
           output << current;
-          break;
+          in_quotes = true;
+        } else {
+          normal();
+        }
+      } else { // in quotes
+        if (current == '\\') {
+          if (peekc(input) == '"' || peekc(input) == '\'') {
+            output << "\\" << getc(input); // consume the " or '
+          } else {
+            normal();
+          }
+        }
+        else if (current == '"' || current == '\'') {
+          output << current;
+          in_quotes = false;
+        } else {
+          normal();
+        }
       }
     }
 
     --argc;
   }
+
 
   return 0;
 }
