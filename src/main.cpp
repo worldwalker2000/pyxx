@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <fstream>
+#include <vector>
 
 char getc(std::ifstream& input)
 {
@@ -34,6 +35,8 @@ int main(int argc, char** argv)
     int tabs = 0;
     bool in_quotes = false;
     bool in_meat = false;
+
+    std::vector<std::pair<int, std::string>> lines;
 
     while (input.good()) {
       char current = getc(input);
