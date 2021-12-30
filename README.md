@@ -40,6 +40,10 @@ while user != computer :
 
 ```
 
+# Usage
+The Makefile uses clang++ and sets the c++ standard to 17. While no cpp17 features are used yet I plan to so it is set already.
+```./pyxx [FILES]```
+
 # Future Plans
 - Allow ! instead of "not"
 - Allow || and && instead of "or" and "and"
