@@ -58,7 +58,6 @@ The Makefile uses clang++ and sets the c++ standard to 17.
 # Know issues
 - things in quotes double and single
 - lambdas
-- some strange brace arangments
 
 # FAQ
 Why the name pyxx?

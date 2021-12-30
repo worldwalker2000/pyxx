@@ -30,6 +30,13 @@ void consume(std::ifstream& input, int n = 1)
   }
 }
 
+void consume_all(std::ifstream& input, char what)
+{
+  while(peekc(input) == what) {
+    getc(input);
+  }
+}
+
 bool detect_word(char current, std::ifstream& input, std::string word)
 {
   bool found = true;
@@ -107,7 +114,7 @@ int main(int argc, char** argv)
             in_quotes = false;
           }
         } else { // not in quotes
-          if (current != ';' && current != '{' && current != '}') {
+          if (current != ';' && current != '{' && current != '}' && current != '\n') {
             if (detect_word(current, input, "++")) {
               current_line << " += 1";
               consume(input); // consume extra +
@@ -128,6 +135,9 @@ int main(int argc, char** argv)
             } else if (detect_word(current, input, "false")) {
               current_line << "False";
               consume(input, 4); // consume rest of false or just alse
+            } else if (detect_word(current, input, "  ")) { // this may seem strange but its to get rid of tons of extra spaces preceding a { like in the funkybraces.pyxx test file
+              current_line << " ";
+              consume_all(input, ' '); // consume all extra ' '
             } else {
               current_line << current;
 
@@ -151,12 +161,23 @@ int main(int argc, char** argv)
             tab_change = -1;
             break;
           }
+
+          if (current == '\n') {
+            break;
+          }
         }
       }
 
+      // debug
       // std::cout << current_line.str() << std::endl;
 
-      lines.push_back(std::make_pair(tabs, current_line.str()));
+      std::string line = current_line.str();
+      if (line == ":") {
+        lines[lines.size() - 1].second += ":"; // so that you can put the { on the next line
+      } else {
+        lines.push_back(std::make_pair(tabs, current_line.str()));
+      }
+
       tabs += tab_change;
     }
 

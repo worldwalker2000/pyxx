@@ -1,0 +1,40 @@
+if true { print(true);
+  print(true);
+  print(true);
+  print(true);
+  print(true);
+  print(true);
+  print(true);
+  print(true);
+  print(true);
+  print(true);
+print(true);}
+
+
+if true
+{print(true);
+print(true);}
+
+
+if true
+                    { print(true);
+print(true);
+
+
+
+
+}print(true);
+
+
+if true
+                    { print(true);
+print(true);
+
+
+
+
+                                                                          }print(true);
+
+if true {
+  print(true);
+}
