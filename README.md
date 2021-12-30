@@ -5,6 +5,8 @@ Python but with a C/C++ style.
 - You can now write x++; (and the -- as well)
 - Lines end with a semicolon
 - {} for blocks not indentation
+- ! instead of "not"
+- || and && instead of "or" and "and"
 
 The code gets transpiled into regular python by pyxx.
 
@@ -45,8 +47,6 @@ The Makefile uses clang++ and sets the c++ standard to 17. While no cpp17 featur
 ```./pyxx [FILES]```
 
 # Future Plans
-- Allow ! instead of "not"
-- Allow || and && instead of "or" and "and"
 - Allow for mulit-line lambda functions
 - Syntax highligting for vim, emacs, and vscode
 - Maybe.. make python's optional static typing required
