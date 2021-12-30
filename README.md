@@ -52,7 +52,7 @@ The Makefile uses clang++ and sets the c++ standard to 17. While no cpp17 featur
 - Maybe.. make python's optional static typing required
 
 # Know issues
-- Escapted quotes
+- things in quotes double and single
 - lambdas
 - some strange brace arangments
 
