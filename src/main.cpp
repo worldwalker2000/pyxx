@@ -30,45 +30,54 @@ int main(int argc, char** argv)
     bool in_meat = false;
 
     while (input.good()) {
-      char c = getc(input);
-
-      if (c == ';') { // ignore ;
-      } else if (c == '{') {
-        output << ":";
-        ++tabs;
-      } else if (c == '}') {
-        --tabs;
-      } else if (c == '\n') {
-        output << "\n";
-        in_meat = false;
-      } else if(c == '"') {
-        output << "\"";
-        in_quotes = !in_quotes;
-      } else if(c == ' ') {
-        if (in_meat || in_quotes) output << " ";
-      } else if (c == '+') {
-        char consumed;
-        if ((consumed = getc(input)) == '+') {
-          output << "+=1";
-        } else {
-          output << "+" << consumed;
-        }
-      } else if (c == '-') {
-        char consumed;
-        if ((consumed = getc(input)) == '-') {
-          output << "-=1";
-        } else {
-          output << "-" << consumed;
-        }
-      } else {
-        if (!in_meat) {
-          in_meat = true;
-          for (int i = 0; i < tabs; ++i) {
-            output << "\t";
+      char current;
+      char consumed;
+      switch (current = getc(input)) {
+        case ';':
+          // ignore ;
+          break;
+        case '{':
+          output << ":";
+          ++tabs;
+          break;
+        case '}':
+          --tabs;
+          break;
+        case '\n':
+          output << "\n";
+          in_meat = false;
+          break;
+        case '"':
+          output << "\"";
+          in_quotes = !in_quotes;
+          break;
+        case ' ':
+          if (in_meat || in_quotes) output << " ";
+          break;
+        case '+':
+          if ((consumed = getc(input)) == '+') {
+            output << "+=1";
+          } else {
+            output << "+" << consumed;
           }
-        }
+          break;
+        case '-':
+          if ((consumed = getc(input)) == '-') {
+            output << "-=1";
+          } else {
+            output << "-" << consumed;
+          }
+          break;
+        default:
+          if (!in_meat) {
+            in_meat = true;
+            for (int i = 0; i < tabs; ++i) {
+              output << "\t";
+            }
+          }
 
-        output << c;
+          output << current;
+          break;
       }
     }
 
