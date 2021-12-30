@@ -47,7 +47,8 @@ while user != computer :
 
 # Usage
 The Makefile uses clang++ and sets the c++ standard to 17.  
-```./pyxx [FILES]```
+```bash make```  
+```bash ./pyxx [FILES]```
 
 # Future Plans
 - Allow for mulit-line lambda functions
