@@ -9,6 +9,7 @@ Python but with a C/C++ style.
 - {} for blocks not indentation
 - ! instead of "not"
 - || and && instead of "or" and "and"
+- "true" and "false" instead of "True" and "False"
 
 The code gets transpiled into regular python by pyxx.
 
