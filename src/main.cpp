@@ -2,6 +2,7 @@
 #include <string>
 #include <fstream>
 #include <vector>
+#include <sstream>
 
 char getc(std::ifstream& input)
 {
@@ -28,108 +29,108 @@ int main(int argc, char** argv)
     std::ifstream input(name, std::ios::in);
     if (!input.is_open()) std::cout << "Failed to open file " << name << std::endl;
 
+    std::vector<std::pair<int, std::string>> lines;
+
+    int tabs = 0;
+    while (input.good() && !input.eof()) {
+      char current;
+
+      if (peekc(input) == '#') {
+        while ((current = getc(input) != '\n')) {
+          // just consume all the coment chars
+        }
+        
+        continue;
+      }
+
+      std::stringstream current_line;
+
+      bool in_quotes = false;
+
+      int tab_change = 0;
+
+      // clear out lines leading white space
+      while (peekc(input) == ' ' || peekc(input) == '\t' | peekc(input) == '\n') {
+        getc(input);
+      }
+
+      while ((current = getc(input)) > -1 && !input.eof()) {
+        if (in_quotes) {
+          bool escaped = false;
+          if (current != '"' && !escaped) {
+            current_line << current;
+            
+            if (current == '\\') {
+              escaped = true;
+            }
+            if (escaped && current == '"') {
+              escaped = false;
+            }
+          } else {
+            current_line << '"';
+            in_quotes = false;
+          }
+        } else { // not in quotes
+          if (current != ';' && current != '{' && current != '}') {
+            if (current == '+' && peekc(input) == '+') {
+              current_line << " += 1";
+              getc(input); // consume extra +
+            } else if (current == '-' && peekc(input) == '-') {
+              current_line << " -= 1";
+              getc(input); // consume extra +
+            } else if (current == '!' && peekc(input) != '=') {
+              current_line << "not ";
+            } else if (current == '&' && peekc(input) == '&') {
+              current_line << "and";
+              getc(input); // consume extra &
+            } else if (current == '|' && peekc(input) == '|') {
+              current_line << "or";
+              getc(input); // consume extra |
+            } else {
+              current_line << current;
+
+              if (current == '"') {
+                in_quotes = true;
+              } 
+            }
+          }
+
+          if (current == ';') {
+            break;
+          }
+
+          if (current == '{') {
+            current_line << ':';
+            tab_change = 1;
+            break;
+          }
+
+          if (current == '}') {
+            tab_change = -1;
+            break;
+          }
+        }
+      }
+
+      // std::cout << current_line.str() << std::endl;
+
+      lines.push_back(std::make_pair(tabs, current_line.str()));
+      tabs += tab_change;
+    }
+
     std::string output_name = name.substr(0, name.length() - 2);
     std::ofstream output(output_name, std::ios::out);
     if (!output.is_open()) std::cout << "Failed to open file " << output_name << std::endl;
 
-    int tabs = 0;
-    bool in_quotes = false;
-    bool in_meat = false;
-
-    std::vector<std::pair<int, std::string>> lines;
-
-    while (input.good()) {
-      char current = getc(input);
-
-      auto normal = [&output, current, tabs, &in_meat]() {
-        if (!in_meat) {
-          in_meat = true;
-          for (int i = 0; i < tabs; ++i) {
-            output << "\t";
-          }
-        }
-
-        output << current;
-      };
-
-      if (!in_quotes) {
-        if (current == ';') {
-          // ignore ;
-        }
-        else if (current == '{') {
-          output << ":";
-          ++tabs;
-        }
-        else if (current == '}') {
-          --tabs;
-        }
-        else if (current == '\n') {
-          output << "\n";
-          in_meat = false;
-        }
-        else if (current == ' ') {
-          if (in_quotes) std::cout << "ERROR" << std::endl;
-          if (in_meat) output << " ";
-        }
-        else if (current == '+') {
-          if (peekc(input) == '+') {
-            output << "+=1";
-            getc(input); // consume the next +
-          } else {
-            normal();
-          }
-        }
-        else if (current == '-') {
-          if (peekc(input) == '-') {
-            output << "-=1";
-            getc(input); // consume the next -
-          } else {
-            normal();
-          }
-        }
-        else if (current == '!') {
-          if (peekc(input) != '=' && (peekc(input) == '!' || peekc(input) == 'T' || peekc(input) == 'F')) { // this is a mess
-            output << "not ";
-          } else {
-            normal();
-          }
-        }
-        else if (current == '&') {
-          if (peekc(input) == '&') {
-            output << "and";
-            getc(input); // consume the next &
-          } else {
-            normal();
-          }
-        }
-        else if (current == '|') {
-          if (peekc(input) == '|') {
-            output << "or";
-            getc(input); // consume the next |
-          } else {
-            normal();
-          }
-        } else if (current == '"' || current == '\'') {
-          output << current;
-          in_quotes = true;
-        } else {
-          normal();
-        }
-      } else { // in quotes
-        if (current == '\\') {
-          if (peekc(input) == '"' || peekc(input) == '\'') {
-            output << "\\" << getc(input); // consume the " or '
-          } else {
-            normal();
-          }
-        }
-        else if (current == '"' || current == '\'') {
-          output << current;
-          in_quotes = false;
-        } else {
-          normal();
-        }
+    for (auto [tabs, line] : lines) {
+      for (int i = 0; i < tabs; ++i) {
+        output << '\t';
       }
+
+      output << line << '\n';
+      
+      // debug
+      // std::cout << tabs << "\t" << line << std::endl;
     }
 
     --argc;
