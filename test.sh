@@ -1,6 +1,12 @@
-#!/bin/zsh
+#!/bin/bash
+
+tests=("test" "plus" "braces")
 
 make
-./pyxx testing/plus.pyxx
-cat testing/plus.py
-python3 testing/plus.py
+
+for t in "${tests[@]}"
+do
+  printf "### $t ###\n"
+  ./pyxx "testing/$t.pyxx"
+  python3 "testing/$t.py"
+done

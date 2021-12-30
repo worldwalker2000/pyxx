@@ -47,16 +47,18 @@ int main(int argc, char** argv)
       } else if(c == ' ') {
         if (in_meat || in_quotes) output << " ";
       } else if (c == '+') {
-        if (getc(input) == '+') {
+        char consumed;
+        if ((consumed = getc(input)) == '+') {
           output << "+=1";
         } else {
-          output << "+";
+          output << "+" << consumed;
         }
       } else if (c == '-') {
-        if (getc(input) == '-') {
+        char consumed;
+        if ((consumed = getc(input)) == '-') {
           output << "-=1";
         } else {
-          output << "-";
+          output << "-" << consumed;
         }
       } else {
         if (!in_meat) {
