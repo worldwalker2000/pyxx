@@ -10,6 +10,12 @@ char getc(std::ifstream& input)
   return c;
 }
 
+// I know that this function is worthless but it keeps the code consistent
+char peekc(std::ifstream& input)
+{
+  return input.peek();
+}
+
 int main(int argc, char** argv)
 {
   ++argv;
@@ -31,7 +37,7 @@ int main(int argc, char** argv)
 
     while (input.good()) {
       char current;
-      //char consumed;
+      //char consumemed;
       switch (current = getc(input)) {
         case ';':
           // ignore ;
@@ -54,24 +60,35 @@ int main(int argc, char** argv)
         case ' ':
           if (in_meat || in_quotes) output << " ";
           break;
-        case '+': {
-            char consumed;
-            if ((consumed = getc(input)) == '+') {
-              output << "+=1";
-            } else {
-              output << "+" << consumed;
-            }
+        case '+':
+          if (peekc(input) == '+') {
+            output << "+=1";
+            getc(input); // consume the next +
+            break;
           }
-          break;
-        case '-': {
-            char consumed;
-            if ((consumed = getc(input)) == '-') {
-              output << "-=1";
-            } else {
-              output << "-" << consumed;
-            }
+        case '-':
+          if (peekc(input) == '-') {
+            output << "-=1";
+            getc(input); // consume the next -
+            break;
           }
-          break;
+        case '!':
+          if (peekc(input) != '=' && (peekc(input) == '!' || peekc(input) == 'T' || peekc(input) == 'F') && !in_quotes) { // this is a mess
+            output << "not ";
+            break;
+          }
+        case '&':
+          if (peekc(input) == '&' && !in_quotes) {
+            output << "and";
+            getc(input); // consume the next &
+            break;
+          }
+        case '|':
+          if (peekc(input) == '|' && !in_quotes) {
+            output << "or";
+            getc(input); // consume the next |
+            break;
+          }
         default:
           if (!in_meat) {
             in_meat = true;

@@ -1,0 +1,17 @@
+if !!True {
+  print(True);
+} else {
+  print(False);
+}
+
+if True || False {
+  print(True);
+} else {
+  print(False);
+}
+
+if True && True {
+  print(True);
+} else {
+  print(False);
+}
