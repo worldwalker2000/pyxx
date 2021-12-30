@@ -1,6 +1,8 @@
 # pyxx
 
-Python but with a C/C++ style.
+Python but with a C/C++ style.  
+
+P.S. Please don't use for real code, this will change and some things are very broken.  
 
 - You can now write x++; (and the -- as well)
 - Lines end with a semicolon
