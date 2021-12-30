@@ -1,2 +1,5 @@
-pyxx: src/*.c
-	cc -Wall -Wextra -Wshadow -Werror src/*.c -g -o pyxx
+CC = clang++
+CFLAGS = -Wall -Wextra -Wshadow -Werror -g
+
+pyxx: src/*.cpp
+	$(CC) $(CFLAGS) src/*.cpp -o pyxx
