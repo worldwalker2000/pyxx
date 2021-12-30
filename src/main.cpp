@@ -31,7 +31,7 @@ int main(int argc, char** argv)
 
     while (input.good()) {
       char current;
-      char consumed;
+      //char consumed;
       switch (current = getc(input)) {
         case ';':
           // ignore ;
@@ -54,18 +54,22 @@ int main(int argc, char** argv)
         case ' ':
           if (in_meat || in_quotes) output << " ";
           break;
-        case '+':
-          if ((consumed = getc(input)) == '+') {
-            output << "+=1";
-          } else {
-            output << "+" << consumed;
+        case '+': {
+            char consumed;
+            if ((consumed = getc(input)) == '+') {
+              output << "+=1";
+            } else {
+              output << "+" << consumed;
+            }
           }
           break;
-        case '-':
-          if ((consumed = getc(input)) == '-') {
-            output << "-=1";
-          } else {
-            output << "-" << consumed;
+        case '-': {
+            char consumed;
+            if ((consumed = getc(input)) == '-') {
+              output << "-=1";
+            } else {
+              output << "-" << consumed;
+            }
           }
           break;
         default:
