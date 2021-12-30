@@ -37,58 +37,66 @@ int main(int argc, char** argv)
 
     while (input.good()) {
       char current;
-      //char consumemed;
       switch (current = getc(input)) {
-        case ';':
-          // ignore ;
-          break;
-        case '{':
-          output << ":";
-          ++tabs;
-          break;
-        case '}':
-          --tabs;
-          break;
-        case '\n':
-          output << "\n";
-          in_meat = false;
-          break;
-        case '"':
-          output << "\"";
-          in_quotes = !in_quotes;
-          break;
-        case ' ':
-          if (in_meat || in_quotes) output << " ";
-          break;
-        case '+':
-          if (peekc(input) == '+') {
-            output << "+=1";
-            getc(input); // consume the next +
+        if (!in_quotes) {
+          case ';':
+            // ignore ;
             break;
-          }
-        case '-':
-          if (peekc(input) == '-') {
-            output << "-=1";
-            getc(input); // consume the next -
+          case '{':
+            output << ":";
+            ++tabs;
             break;
-          }
-        case '!':
-          if (peekc(input) != '=' && (peekc(input) == '!' || peekc(input) == 'T' || peekc(input) == 'F') && !in_quotes) { // this is a mess
-            output << "not ";
+          case '}':
+            --tabs;
             break;
-          }
-        case '&':
-          if (peekc(input) == '&' && !in_quotes) {
-            output << "and";
-            getc(input); // consume the next &
+          case '\n':
+            output << "\n";
+            in_meat = false;
             break;
-          }
-        case '|':
-          if (peekc(input) == '|' && !in_quotes) {
-            output << "or";
-            getc(input); // consume the next |
+          case ' ':
+            if (in_meat) output << " ";
             break;
-          }
+          case '+':
+            if (peekc(input) == '+') {
+              output << "+=1";
+              getc(input); // consume the next +
+              break;
+            }
+          case '-':
+            if (peekc(input) == '-') {
+              output << "-=1";
+              getc(input); // consume the next -
+              break;
+            }
+          case '!':
+            if (peekc(input) != '=' && (peekc(input) == '!' || peekc(input) == 'T' || peekc(input) == 'F')) { // this is a mess
+              output << "not ";
+              break;
+            }
+          case '&':
+            if (peekc(input) == '&') {
+              output << "and";
+              getc(input); // consume the next &
+              break;
+            }
+          case '|':
+            if (peekc(input) == '|') {
+              output << "or";
+              getc(input); // consume the next |
+              break;
+            }
+        } else { // no in a quote
+          case '\\':
+            if (peekc(input) == '"' || peekc(input) == '\'') {
+              output << "\\" << getc(input); // consume the " or '
+              break;
+            }
+          case '"':
+          case '\'':
+            output << current;
+            in_quotes = !in_quotes;
+            break;
+        }
         default:
           if (!in_meat) {
             in_meat = true;
