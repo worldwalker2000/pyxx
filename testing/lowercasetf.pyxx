@@ -1,0 +1,12 @@
+if true {
+  print(true)
+}
+else {
+  print(False)
+}
+
+if !false {
+  print(true)
+} else {
+  print(False)
+}

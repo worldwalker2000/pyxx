@@ -18,6 +18,42 @@ char peekc(std::ifstream& input)
   return input.peek();
 }
 
+void ungetc(std::ifstream& input)
+{
+  input.unget();
+}
+
+void consume(std::ifstream& input, int n = 1)
+{
+  for (int i = 0; i < n; ++i) {
+    getc(input);
+  }
+}
+
+bool detect_word(char current, std::ifstream& input, std::string word)
+{
+  bool found = true;
+  if (current != word[0]) found = false;
+
+  int n_walked = 0;
+  for (size_t i = 1; i < word.length(); ++i) {
+    if ((int) peekc(input) == EOF) {
+      found = false;
+      break;
+    }
+    if (word[i] != getc(input)) {
+      found = false;
+    }
+    ++n_walked;
+  }
+
+  for (int i = 0; i < n_walked; ++i) {
+    ungetc(input);
+  }
+
+  return found;
+}
+
 int main(int argc, char** argv)
 {
   ++argv;
@@ -72,20 +108,26 @@ int main(int argc, char** argv)
           }
         } else { // not in quotes
           if (current != ';' && current != '{' && current != '}') {
-            if (current == '+' && peekc(input) == '+') {
+            if (detect_word(current, input, "++")) {
               current_line << " += 1";
-              getc(input); // consume extra +
-            } else if (current == '-' && peekc(input) == '-') {
+              consume(input); // consume extra +
+            } else if (detect_word(current, input, "--")) {
               current_line << " -= 1";
-              getc(input); // consume extra +
+              consume(input); // consume extra +
             } else if (current == '!' && peekc(input) != '=') {
               current_line << "not ";
-            } else if (current == '&' && peekc(input) == '&') {
+            } else if (detect_word(current, input, "&&")) {
               current_line << "and";
-              getc(input); // consume extra &
-            } else if (current == '|' && peekc(input) == '|') {
+              consume(input); // consume extra &
+            } else if (detect_word(current, input, "||")) {
               current_line << "or";
-              getc(input); // consume extra |
+              consume(input); // consume extra |
+            } else if (detect_word(current, input, "true")) {
+              current_line << "True";
+              consume(input, 3); // consume rest of true or just rue
+            } else if (detect_word(current, input, "false")) {
+              current_line << "False";
+              consume(input, 4); // consume rest of false or just alse
             } else {
               current_line << current;
 
