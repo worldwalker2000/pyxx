@@ -46,9 +46,15 @@ while user != computer :
 
 ```
 
-# Usage
+# Building
 The Makefile uses clang++ and sets the c++ standard to 17.  
+## Unix
 ```$ make```  
+## Windows
+Change Makefile to use gcc.  
+```> mingw32-make```
+
+# Usage
 ```$ ./pyxx [FILES]```
 
 # Future Plans
