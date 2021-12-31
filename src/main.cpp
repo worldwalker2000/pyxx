@@ -136,22 +136,24 @@ void parse(std::ifstream& input, std::vector<std::pair<int, std::string>>& lines
           } else if (detect_word(current, input, "  ")) { // this may seem strange but its to get rid of tons of extra spaces preceding a { like in the funkybraces.pyxx test file
             current_line << " ";
             consume_all(input, ' '); // consume all extra ' '
-          } else if(detect_word(current, input, "lambda")) {
-            current_line << "lambda_func_" << ++lambdas;
+          } else if(detect_word(current, input, "[]")) {
+            consume(input); // consume closing ]
+            if (peekc(input) == '(') {
+              current_line << "lambda_func_" << ++lambdas;
 
-            consume_until(input, '(');
-            std::stringstream func;
-            func << "def lambda_func_" << lambdas;
-            char c;
-            while ((c = getc(input)) != ')') {
-              func << c;
+              consume_until(input, '(');
+              std::stringstream func;
+              func << "def lambda_func_" << lambdas;
+              char c;
+              while ((c = getc(input)) != ')') {
+                func << c;
+              }
+              func << ")";
+
+              lines.push_back(std::make_pair(tabs, func.str()));
+
+              parse(input, lines, tabs, lambdas, false);
             }
-            func << ")";
-
-            lines.push_back(std::make_pair(tabs, func.str()));
-
-            parse(input, lines, tabs, lambdas, false);
-
           } else {
             current_line << current;
 

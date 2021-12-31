@@ -2,12 +2,12 @@ import random;
 
 numbers = [random.randint(1, 50) for _ in range(40)];
 
-numbers = list(map(lambda (x) { return x * x; }, numbers));
+numbers = list(map([](x) { return x * x; }, numbers));
 print(true);
 
-numbers = list(map(lambda (x) {
+numbers = list(map([](x) {
     ns = [random.randint(1, 50) for _ in range(40)];
-    ns = list(map(lambda (x) { return x - 1; }, ns ));
+    ns = list(map([](x) { return x - 1; }, ns ));
     x++;
     x *= x;
     return x;
