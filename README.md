@@ -10,6 +10,7 @@ Python but with a C/C++ style.
 - ! instead of "not"
 - || and && instead of "or" and "and"
 - "true" and "false" instead of "True" and "False"
+- Mulit-line lambda functions
 
 The code gets transpiled into regular python by pyxx.
 
@@ -51,13 +52,11 @@ The Makefile uses clang++ and sets the c++ standard to 17.
 ```$ ./pyxx [FILES]```
 
 # Future Plans
-- Allow for mulit-line lambda functions
 - Syntax highligting for vim, emacs, and vscode
 - Maybe.. make python's optional static typing required
 
 # Know issues
-- things in quotes double and single
-- lambdas
+- None right now, feel free to make an issue if you find one as I am sure that their are some
 
 # FAQ
 Why the name pyxx?
