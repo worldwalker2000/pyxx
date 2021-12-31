@@ -47,12 +47,13 @@ while user != computer :
 ```
 
 # Building
-The Makefile uses clang++ and sets the c++ standard to 17.  
 ## Unix
-```$ make```  
+```cmake .```
+```make```
 ## Windows
-Change Makefile to use gcc.  
-```> mingw32-make```
+Open in Visual Studio, go to open then CMake, select CMakeLists.txt, then Ctrl-F5 or use the GUI.  
+
+Sorry Makefile chads, had to switch to cmake for windows users. make was throwing a fit on windows.
 
 # Usage
 ```$ ./pyxx [FILES]```
