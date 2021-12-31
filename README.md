@@ -10,7 +10,7 @@ Python but with a C/C++ style.
 - ! instead of "not"
 - || and && instead of "or" and "and"
 - "true" and "false" instead of "True" and "False"
-- Mulit-line lambda functions
+- Multi-line lambda functions
 
 The code gets transpiled into regular python by pyxx.
 
