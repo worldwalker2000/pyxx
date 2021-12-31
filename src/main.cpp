@@ -193,9 +193,13 @@ void parse(std::ifstream& input, std::vector<std::pair<int, std::string>>& lines
     }
 
     tabs += tab_change;
-    if (tab_change > 0) can_return = true;
+    if (tab_change > 0) {
+      can_return = true;
+    }
 
-    if (!main_parser && can_return && tabs == starting_tab) return;
+    if (!main_parser && can_return && tabs == starting_tab) {
+      return;
+    }
   }
 }
 
