@@ -91,7 +91,7 @@ void parse(std::ifstream& input, std::vector<std::pair<int, std::string>>& lines
     int tab_change = 0;
 
     // clear out lines leading white space
-    while (peekc(input) == ' ' || peekc(input) == '\t' | peekc(input) == '\n') {
+    while (peekc(input) == ' ' || peekc(input) == '\t' || peekc(input) == '\n') {
       getc(input);
     }
 
