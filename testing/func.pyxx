@@ -1,0 +1,10 @@
+def test() {
+    print(true);
+    def inner_test() {
+        print(true);
+        print(true);
+    }
+    inner_test();
+}
+
+test();

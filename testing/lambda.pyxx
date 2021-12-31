@@ -1,0 +1,13 @@
+import random;
+
+numbers = [random.randint(1, 50) for _ in range(40)];
+
+numbers = list(map(lambda (x) { return x * x; }, numbers));
+print(true);
+
+numbers = list(map(lambda (x) {
+    x++;
+    x *= x;
+    return x;
+}, numbers));
+print(true);
