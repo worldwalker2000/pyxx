@@ -11,3 +11,12 @@ numbers = list(map(lambda (x) {
     return x;
 }, numbers));
 print(true);
+
+numbers = list(map(lambda (x)
+{
+    x++;
+    x *= x;
+    return x;
+}, numbers));
+
+print(true);

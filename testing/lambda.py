@@ -12,4 +12,11 @@ def lambda_func_2(x):
 	
 numbers = list(map(lambda_func_2, numbers))
 print(True)
+def lambda_func_3(x):
+	x += 1
+	x *= x
+	return x
+	
+numbers = list(map(lambda_func_3, numbers))
+print(True)
 
