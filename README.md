@@ -48,8 +48,8 @@ while user != computer :
 
 # Building
 ## Unix
-```cmake .```
-```make```
+```$ cmake .```  
+```$ make```  
 ## Windows
 Open in Visual Studio, go to open then CMake, select CMakeLists.txt, then Ctrl-F5 or use the GUI.  
 
