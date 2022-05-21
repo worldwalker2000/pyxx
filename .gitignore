@@ -6,3 +6,4 @@ CMakeCache.txt
 cmake_install.cmake
 .vs/
 out/
+.DS_Store
